@@ -35,6 +35,18 @@ def consulta_lista():
     else:
         return jsonify({{'mensagem': 'Erro! nenhum aluno registrado!'}}), 400
 
+@app.route('/academia/<id>', methods=['GET'])
+def buscar_id(id):  
+
+    doc_ref = db.collection('aluno').document(id)
+    doc = doc_ref.get().to_dict()
+    
+    if doc:
+        return jsonify(doc), 200
+    
+    else:
+        return ({'mensagem':'Aluno não encontrado'}), 400
+
 @app.route('/academia/consulta', methods=['POST'])
 def busca_cpf():
     
