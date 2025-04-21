@@ -69,6 +69,28 @@ def busca_cpf():
         return jsonify({'aluno': aluno_encontrado}), 200
     else:
         return jsonify({'mensagem':'Aluno não encontrado'}), 404
+
+@app.route('/academia/consulta/nome', methods=['POST'])
+def buscar_nome():
+    dados = request.json
+
+    if "nome" not in dados:
+        return jsonify({'mensagem': 'Erro! Campo NOME é obrigatório'})
+    
+    cpf = dados['nome']
+
+    aluno_ref = db.collection('aluno')
+    busca = aluno_ref.where('cpf', '==', cpf).stream()
+
+    aluno_encontrado = None
+    for doc in busca:
+        aluno_encontrado = doc.to_dict()
+
+    if aluno_encontrado:
+        return jsonify({'aluno': aluno_encontrado}), 200
+    else:
+        return jsonify({'mensagem': 'aluno não encontrado!'}), 404
+
     
 @app.route('/academia', methods=['POST'])
 def cadastro_aluno():
