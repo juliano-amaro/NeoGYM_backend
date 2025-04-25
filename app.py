@@ -77,10 +77,10 @@ def buscar_nome():
     if "nome" not in dados:
         return jsonify({'mensagem': 'Erro! Campo NOME é obrigatório'})
     
-    cpf = dados['nome']
+    nome = dados['nome']
 
     aluno_ref = db.collection('aluno')
-    busca = aluno_ref.where('cpf', '==', cpf).stream()
+    busca = aluno_ref.where('nome', '==', nome).stream()
 
     aluno_encontrado = None
     for doc in busca:
